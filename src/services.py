@@ -4,7 +4,7 @@ import random
 from datetime import datetime
 from bson import json_util
 from flask import Response, request, jsonify
-from config import mongo
+from src.config import mongo
 
 
 def random_generator(size=16, chars=string.ascii_uppercase + string.digits):
@@ -80,7 +80,7 @@ def update_data(self):
 
 
 def list_all_data():
-    data = mongo.db.user.find_one()
+    data = mongo.db.user.find()
     if data:
         response = json_util.dumps(data)
         return Response(response, mimetype='application/json', status=302)
@@ -111,7 +111,7 @@ def delete_data_name_company(self):
     if not exists:
         return not_found()
 
-    mongo.db.user.delete_one({'name': name, 'company': company})
+    mongo.db.user.delete_one({'_id':exists['_id'], 'name': name, 'company': company})
     response = jsonify({'message': 'Fornecedores -- name= ' + name + ' && company= ' + company + ' Deleted Successfully'})
     response.status_code = 200
     return response
