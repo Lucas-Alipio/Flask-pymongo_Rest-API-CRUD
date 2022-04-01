@@ -42,12 +42,13 @@ def create_route_find_name_company():
 @app.route('/deletar-fornecedores?by=name&by=company', methods=['DELETE'])
 def create_route_delete_name_company():
     response = json.dumps(request.json)
+
     res = services.delete_data_name_company(response)
     return res
 
 
 @app.errorhandler(404)
-def not_found():
+def not_foundd(error=None):
     return services.not_found()
 
 
